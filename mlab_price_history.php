@@ -47,7 +47,7 @@ class Mlab_Price_History extends Module
             !$this->registerHook('actionObjectSpecificPriceAddAfter') ||
             !$this->registerHook('actionObjectSpecificPriceUpdateAfter') ||
             !$this->registerHook('actionObjectSpecificPriceDeleteAfter') ||
-            !$this->registerHook('displayProductPriceBlock')) {
+            !$this->registerHook('displayProductLowestPrice')) { // Nome personalizzato
             return false;
         }
 
@@ -535,22 +535,12 @@ class Mlab_Price_History extends Module
         
         return Db::getInstance()->getRow($sql);
     }
-
+    
     /**
      * Hook to display lowest price on product page
      */
-    public function hookDisplayProductPriceBlock($params)
+    public function hookDisplayProductLowestPrice($params)
     {
-        // Controlla se esiste la chiave 'type' prima di usarla
-        if (!isset($params['type'])) {
-            return;
-        }
-
-        // Se il tipo non è quello che ci serve, esci
-        if ($params['type'] !== 'weight') {
-            return;
-        }
-
         $product = $params['product'];
         if (!isset($product['id_product'])) {
             return;
