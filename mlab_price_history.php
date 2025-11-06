@@ -532,8 +532,24 @@ class Mlab_Price_History extends Module
                 WHERE `id_product` = ' . (int)$idProduct . '
                 AND `id_product_attribute` = ' . (int)$idProductAttribute . '
                 AND `id_shop` = ' . $idShop;
-        
-        return Db::getInstance()->getRow($sql);
+
+        $result = Db::getInstance()->getRow($sql);
+
+        // if no result check only with id product
+        if (!$result) {
+            $sql = 'SELECT *
+                FROM `' . _DB_PREFIX_ . 'lowest_price_30d`
+                WHERE `id_product` = ' . (int)$idProduct . '
+                AND `id_shop` = ' . $idShop;
+            $result = Db::getInstance()->getRow($sql);
+        }
+
+        // if a lower price is 0 return false
+        if ($result && (float)$result['lowest_price'] > 0) {
+            return $result;
+        }
+
+        return false;
     }
     
     /**
