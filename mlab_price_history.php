@@ -567,6 +567,7 @@ class Mlab_Price_History extends Module
 
         $lowestPriceData = $this->getLowestPrice30d($idProduct, $idProductAttribute);
 
+        //if no lowest price data, we should display the original price
         if (!$lowestPriceData) {
             return;
         }
