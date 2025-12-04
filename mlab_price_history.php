@@ -28,6 +28,14 @@ class Mlab_Price_History extends Module
 
         parent::__construct();
 
+        // Autoload classes
+        if (file_exists($this->local_path.'classes/MlabPriceHistory.php')) {
+            require_once($this->local_path.'classes/MlabPriceHistory.php');
+        }
+        if (file_exists($this->local_path.'classes/MlabLowestPrice30d.php')) {
+            require_once($this->local_path.'classes/MlabLowestPrice30d.php');
+        }
+
         $this->displayName = $this->l('Mlab Price History');
         $this->description = $this->l('Tracks price changes when promotions are activated and maintains lowest price in last 30 days.');
         $this->confirmUninstall = $this->l('Are you sure you want to uninstall this module?');
